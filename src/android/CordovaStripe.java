@@ -14,7 +14,6 @@ import com.stripe.android.Stripe;
 import com.stripe.android.model.BankAccount;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
-import com.stripe.android.util.CardUtils;
 
 public class CordovaStripe extends CordovaPlugin {
 
@@ -139,7 +138,8 @@ public class CordovaStripe extends CordovaPlugin {
   }
 
   private void validateCardNumber(final String cardNumber, final CallbackContext callbackContext) {
-    if (CardUtils.isValidCardNumber(cardNumber)) {
+    Card card = new Card(cardNumber, null, null, null);
+    if (card.validateNumber()) {
       callbackContext.success();
     } else {
       callbackContext.error("Invalid card number");
